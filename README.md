@@ -3,7 +3,7 @@ A repository containing a starter MongoDB, Express.js, Angular, and Node.js (MEA
 
 ### Running the Docker containers
 1. Start by installing Docker if you have not already done so: https://docs.docker.com/get-docker/
-    * NOTE for Windows users: I *highly* recommend that you enable the Windows Subsystem for Linux Version 2 (WSL2) in Windows, and intall a default Linux 
+    * NOTE for Windows usersController: I *highly* recommend that you enable the Windows Subsystem for Linux Version 2 (WSL2) in Windows, and intall a default Linux 
    distribution (like Ubuntu) prior to 
        installing Docker. Docker will run much easier on all editions of Windows 10 if you perform this step first
         - This article will walk you through enabling WSL2: https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10
