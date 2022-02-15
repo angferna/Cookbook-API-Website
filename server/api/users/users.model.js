@@ -1,74 +1,65 @@
-// import uuidv4 from 'uuid/v4';
-import { v4 as uuidv4 } from 'uuid' ;
+import mongoose from 'mongoose';
+let Schema = mongoose.Schema;
 
+/*
+  This section declares the schemas for the different documents
+  that will be used
+ */
 
-class User {
-  users = [];
+// This schema represents the address of the user
+let addressSchema = Schema({
+  // addressLine1 is a simple String type that is required
+  addressLine1: {type: String, required: true},
+  // addressLine2 is a simple String type that is NOT required
+  addressLine2: {type: String, required: false},
+  // city is a simple String type that is required
+  city: {type: String, required: true},
+  // state is a simple String type that is required
+  state: {type: String, required: true},
+  // zip is a simple Number type that is required
+  zip: {type: Number, required: true}
+});
 
-  find() {
-    // Returns a list of all users
-      return this.users;
-  }
+// This schema represents the name of the user
+let nameSchema = Schema({
+  // firstName is a simple String type that is required
+  firstName: {type: String, required: true},
+  // middleName is a simple String type that is not required
+  middleName: {type: String, required: false},
+  // lastName is a simple String type that is required
+  lastName: {type: String, required: true}
+});
 
-  findById(userId) {
-    // Find user by Id
-      for(let i=0; i< this.users.length; i++) {
-          console.log( "ARRAY USER ID " + this.users[i].id + " OR  PASSED IN USER ID"+ userId);
-          if(this.users[i].id === userId) {
-              console.log("ENTERED IF STATEMENT");
+// This is the main user schema
+let userSchema = Schema({
+  // Age is a simple number type that is required
+  age: {type: Number, required: true},
+  /*
+   Address is referenced as a 'foreign key' using the objectId
+   of an address stored in a separate collection.
+   The address will be populated by Mongoose using 'Population'
+   http://mongoosejs.com/docs/populate.html
+  */
+  address: {type: Schema.Types.ObjectId, ref: 'Address'},
+  /*
+   Name is a subdocument of User, and will be stored
+   in the same document as the User itself.
+   Unlike a populated document, this doesn't require an
+   ObjectId reference and the schema for name can be
+   referenced directly
+  */
+  name: nameSchema
+});
 
-              return this.users[i];
-          }
-      }
-    // Returns user, or null if not present
-      return null;
-  }
+/*
+  This section creates interactive models from the defined schemas
+  above so that you can perform Create Read Update and Delete (CRUD)
+  operations against the schemas.
+  NOTE since the nameSchema is embedded within userSchema, it does NOT have
+  to be created as a model!
+ */
+let Address = mongoose.model('Address', addressSchema);
+let User = mongoose.model('User', userSchema);
 
-  create(user) {
-      // Create a new user
-      // Generate the id and overwrite any id that may be present in user
-      let id = uuidv4();
-      let address = user.address;
-      let name = user.name;
-      let age = user.age;
-
-      let newUser = {
-          id,
-          name,
-          age,
-          address
-      }
-      this.users.push(newUser);
-    // Return created user
-      return user;
-  }
-
-  findOneAndUpdate(user) {
-    // Find user and update
-      for(let i=0; i< this.users.length; i++) {
-          if(this.users[i].id.toString() === user.id.toString()) {
-              this.users[i]=user;
-              return true;
-          }
-      }
-    // If user does not exist, create it using Id provided
-      this.users.push(user);
-    // Return true if user was updated, false if user was created
-      return false;
-  }
-
-  remove(user) {
-    // Remove user if exists with the Id provided
-      for(let i=0; i< this.users.length; i++) {
-          if(this.users[i].id.toString() === user.toString()) {
-              this.users.splice(i, 1);
-              return true;
-          }
-      }
-    // Return true if removed
-    // Return false if did user not exist
-      return false;
-  }
-}
-
-export default new User();
+// Export the two created models, Address and User
+export {Address, User};
