@@ -6,12 +6,22 @@
             </h1>
             <br><br>
             <h1 class="page-header">
-                More to come soon!
+                Lab 10: Introduction to Angular
+<!--                More to come soon!-->
                 <svg class="bi" width="32" height="32" fill="currentColor">
                     <use xlink:href="../../assets/fonts/bootstrap-icons.svg#emoji-sunglasses"/>
                 </svg>
                 <br><br>
             </h1>
+
+            <h1>Enter a value here: <input [(ngModel)]="input"></h1>
+            <h2>You entered: {{ input }}</h2>
+
+            <h1>Contents of values array:</h1>
+            <ul>
+                <li *ngFor="let value of values">{{ value }}</li>
+            </ul>
+
         </div>
     </div>
 </div>
