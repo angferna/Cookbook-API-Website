@@ -1,8 +1,8 @@
 'use strict';
 
 import {Review, Recipe} from './recipes.model';
-import {User} from './users.model';
-import {Address} from "../users/users.model";
+import {User} from '../users/users.model';
+
 
 // Find all Recipes
 export function index(req, res) {
@@ -15,8 +15,8 @@ export function index(req, res) {
     Recipe.find()
         /*
            For each recipe object, populate the review attribute.
-           This will make all the attributes available in the address
-           accessible as though the address were a subdocument by joining
+           This will make all the attributes available in the review
+           accessible as though the review were a subdocument by joining
            the two tables for you
            http://mongoosejs.com/docs/populate.html
         */
@@ -116,16 +116,10 @@ export function showReview(req, res) {
 
 // Create a new recipe
 export function create(req, res) {
-    /*
-      In this function we are taking the request body
-      As it was sent and using it as the JSON for the recipe object,
-      Since address is stored in a separate collection from user
-      we must create each document individually, and then associate
-      the address to the user after we know its id
-    */
+    // Save recipe contents to variable from request
     let recipe = req.body;
 
-    // create recipe
+    // Create recipe
     Recipe.create(recipe)
         // Recipe saved successfully! return 201 with the created recipe object
         .then(function(createdRecipe) {
@@ -143,16 +137,16 @@ export function create(req, res) {
 export function createReview(req, res) {
     /*
    In this function we are taking the request body
-   As it was sent and using it as the JSON for the address
-   and user objects.
-   Since address is stored in a separate collection from user
+   As it was sent and using it as the JSON for the review
+   and recipe objects.
+   Since review is stored in a separate collection from recipe
    we must create each document individually, and then associate
-   the address to the user after we know its id
+   the review to the recipe after we know its id
  */
     let review = req.body.review;
     let recipeId = req.params.recipeId;
     let recipe = null;
-    // Start off by saving the address
+    // Start off by finding the recipe
     Recipe.findById(recipeId)
         .populate('reviews')
         .exec()
@@ -178,17 +172,19 @@ export function createReview(req, res) {
                 /*
                     This return statement will return a promise object.
                     That means that the following .then in this chain
-                    will not occur until after the user is saved, and will be given the result
-                    of this promise resolving, which is the created user object
+                    will not occur until after the Recipe is updated, and will be given the result
+                    of this promise resolving, which is the updated recipe object
                 */
-                return Recipe.update(recipe);
+                return Promise.all([
+                    existingRecipe.increment().save()
+                ]);
             })
-            // User and Address saved successfully! return 201 with the created user object
+            // Recipe and Review saved/updated successfully! return 201 with the created review object
             .then(function(createdReview) {
                 res.status(201);
                 res.json(createdReview);
             })
-            // An error was encountered during either the save of the address or the save of the user
+            // An error was encountered during either the save of the review or the update of the review
             .catch(function(err) {
                 res.status(400);
                 res.send(err);
@@ -220,7 +216,7 @@ export function update(req, res) {
                  for each promise that was passed
                 */
                 return Promise.all([
-                    existingRecipe.increment().save()
+                    recipe.increment().save()
                 ]);
             } else {
                 // Recipe was not found
@@ -248,8 +244,61 @@ export function update(req, res) {
         });
 }
 
+// Update a Review by Id
+export function updateReview(req, res){
+    let review = req.body.review;
+    let recipeId = req.params.recipeId;
+    let recipe = null;
+    // Start off by finding the recipe
+    Recipe.findById(recipeId)
+        .populate('reviews')
+        .exec()
+        .then(function(existingRecipe) {
+            /*
+             findById will return null if the object was not found
+             This if check will evaluate to false for a null recipe
+            */
+            if(!existingRecipe) {
+                // Recipe was not found
+                res.status(404);
+                res.json({message: 'Recipe Not Found'});
+            }
+            recipe = existingRecipe;
+        })
+    Review.findById(reviewId)
+        /*
+         Review was successfully saved, now associate saved review to the
+        recipe given and then save the recipe
+        */
+        .then(function(existingReview) {
+            existingReview.reviewDescription = req.body.reviewDescription;
+            existingReview.ratingReview = req.body.ratingReview;
+            existingReview.User = req.body.user;
+            /*
+                This return statement will return a promise object.
+                That means that the following .then in this chain
+                will not occur until after the Recipe is updated, and will be given the result
+                of this promise resolving, which is the updated recipe object
+            */
+            return Promise.all([
+                recipe.reviews.increment().save()
+            ]);
+        })
+        // Recipe and Review saved/updated successfully! return 201 with the created review object
+        .then(function(createdReview) {
+            res.status(201);
+            res.json(createdReview);
+        })
+        // An error was encountered during either the save of the review or the update of the review
+        .catch(function(err) {
+            res.status(400);
+            res.send(err);
+        });
+}
+
 // Remove a recipe and all its reviews
 export function destroy(req, res) {
+    // First find the recipe by Id
     Recipe.findById(req.params.recipeId)
         .populate('reviews')
         .exec()
@@ -257,29 +306,31 @@ export function destroy(req, res) {
             if(existingRecipe) {
                 /*
                   This is the equivalent of cascading delete in a relational database
-                  If the recipe was found, remove both the recipe object and the address object from
+                  If the recipe was found, remove both the recipe object and the review object from
                   their respective collections. Only record the delete function as successful if both objects
                   are deleted
                 */
                 return Promise.all([
+                    // Remove all reviews and the recipe
                     existingRecipe.reviews.remove(),
                     existingRecipe.remove()
                 ]);
             } else {
+                // If the recipe does not exist, return the existingRecipe variable
                 return existingRecipe;
             }
         })
-        // Delete was successful
+        // Delete was successful, return 204 status
         .then(function(deletedRecipe) {
             if(deletedRecipe) {
                 res.status(204).send();
             } else {
-                // Recipe was not found
+                // Recipe was not found, return 404 status and "Not Found" error message
                 res.status(404);
                 res.json({message: 'Not Found'});
             }
         })
-        // Reviews or recipe delete failed
+        // Reviews or recipe delete failed, return 400 status with error message
         .catch(function(err) {
             res.status(400);
             res.send(err);
@@ -288,42 +339,47 @@ export function destroy(req, res) {
 
 // Remove a review from a recipe
 export function destroyReview(req, res) {
+    // First find the recipe by Id
     Recipe.findById(req.params.recipeId)
         .populate('reviews')
         .exec()
         .then(function(existingRecipe) {
             if(existingRecipe) {
-                // Recipe was not found
+                // Recipe was not found, return 404 status & "Not Found" error message
                 res.status(404);
-                res.json({message: 'Recipe Not Found'});            }
+                res.json({message: 'Recipe Not Found'});
+            }
         })
+    // Then find review by Id
     Review.findById(req.param.reviewId)
         .then(function(existingReview){
             if(existingReview) {
                 /*
                   This is the equivalent of cascading delete in a relational database
-                  If the recipe was found, remove both the recipe object and the address object from
+                  If the recipe was found, remove both the recipe object and the review object from
                   their respective collections. Only record the delete function as successful if both objects
                   are deleted
                 */
                 return Promise.all([
+                    // If the review exists remove it
                     existingReview.remove()
                 ]);
             } else{
+                // If the review does not exist, return existingReview
                 return existingReview;
             }
         })
-        // Delete was successful
+        // Delete was successful, return 204 status
         .then(function(deletedReview) {
             if(deletedReview) {
                 res.status(204).send();
             } else {
-                // Review was not found
+                // Review was not found, return 404 status and "Not Found" error message
                 res.status(404);
                 res.json({message: 'Not Found'});
             }
         })
-        // Reviews or recipe delete failed
+        // Reviews delete failed, return 400 status and error message
         .catch(function(err) {
             res.status(400);
             res.send(err);

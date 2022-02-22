@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // import User from the users.model file because it is referenced in the reviewSchema
-import User from './users/users.model';
+import User from '../users/users.model';
 
 
 let Schema = mongoose.Schema;
@@ -23,8 +23,8 @@ let reviewSchema = Schema({
     reviewDescription: {type: String, required: true},
     // ratingReview is a Number type that is required
     ratingReview: {type: Number, required: true},
-    // dateCreated is a Date type that is required and automatically set by the server
-    dateCreated: {type: Date, required: true},
+    // dateCreated is a Date type that is not required to be given by the user becuase it is automatically set by the server
+    dateCreated: {type: Date, required: false},
     // userReviewer is a is referenced as a foreign key with the object ID that is required
     userReviewer: {type: Schema.Types.ObjectId, ref:"User", required: true}
 });
@@ -46,7 +46,9 @@ let recipeSchema = Schema({
     // ingredients is a subdocument that is required
     ingredients: ingredientSchema,
     // reviews is referenced as a foreign key with the object ID that is not required
-    reviews: {type: [Schema.Types.ObjectId], ref: "Review"}
+    // this is not requires, because reviews can only be made after a recipe already exists,
+    // and are not required for the existence of the recipe
+    reviews: {type: [Schema.Types.ObjectId], required: false, ref: "Review"}
 });
 
 
