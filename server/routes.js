@@ -4,11 +4,13 @@
 
 import errors from './components/errors';
 import path from 'path';
-import * as controller from './api/users';
+import * as usersController from './api/users';
+import * as recipesController from './api/recipes';
 
 export default function(app) {
     // Custom API routes go here
-    app.use('/api/users', controller.router);
+    app.use('/api/users', usersController.router);
+    app.use('/api/recipes', recipesController.router);
 
 
     // Define health route

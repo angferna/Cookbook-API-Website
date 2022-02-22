@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
+
+// import User from the users.model file because it is referenced in the reviewSchema
 import User from './users/users.model';
+
+
 let Schema = mongoose.Schema;
 
 /*
@@ -10,7 +14,7 @@ let Schema = mongoose.Schema;
 // This schema represents the array of ingredients for a given recipe
 let ingredientSchema = Schema({
     // ingredientsArray is an Array type that is required
-    ingredientsArray: {type: Array, required: true}
+    ingredientsArray: {type: [String], required: true}
 });
 
 // This schema represents user reviews for a given recipe
@@ -50,11 +54,11 @@ let recipeSchema = Schema({
   This section creates interactive models from the defined schemas
   above so that you can perform Create Read Update and Delete (CRUD)
   operations against the schemas.
-  NOTE since the nameSchema is embedded within userSchema, it does NOT have
+  NOTE since the ingredientSchema is embedded within recipeSchema, it does NOT have
   to be created as a model!
  */
 let Review = mongoose.model('Review', reviewSchema);
 let Recipe = mongoose.model('Recipe', recipeSchema);
 
-// Export the two created models, Address and User
+// Export the two created models, Review and Recipe
 export {Review, Recipe};
