@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<hr size="5">
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Age</th>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Address Line 1</th>
+        <th>Address Line 2</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+        <td>{{user._id}}</td>
+        <td>{{user.age}}</td>
+        <td>{{user.name.firstName}}</td>
+        <td>{{user.name.middleName}}</td>
+        <td>{{user.name.lastName}}</td>
+        <td>{{user.address.addressLine1}}</td>
+        <td>{{user.address.addressLine2}}</td>
+        <td>{{user.address.city}}</td>
+        <td>{{user.address.state}}</td>
+        <td>{{user.address.zip}}</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
