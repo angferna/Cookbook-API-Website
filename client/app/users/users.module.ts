@@ -12,8 +12,29 @@ import { UsersComponent } from './users.component';
 
 
 export const ROUTES: Routes = [
-    {path: '/users/:id', component: UsersComponent},
+    {path: 'users/:id', component: UsersComponent},
 ];
+
+
+@NgModule({
+    imports: [
+        BrowserModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        RouterModule.forChild(ROUTES),
+
+        TooltipModule.forRoot(),
+    ],
+    declarations: [
+        UsersComponent
+    ],
+
+    exports: [
+        UsersComponent
+    ],
+
+    providers: []
+})
 
 
 export class UsersModule {}

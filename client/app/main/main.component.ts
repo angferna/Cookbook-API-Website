@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {UserService} from '../../components/services/user.service';
-import {User} from '../../components/interfaces/User';
+import {User} from '../../components/interfaces/user';
 
 @Component({
     selector: 'main',

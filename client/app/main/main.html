@@ -6,7 +6,7 @@
             </h1>
             <br><br>
             <h1 class="page-header">
-                Lab 11: Pipes and HttpClient within Angular
+                Lab 12: Angular Routing
 <!--                More to come soon!-->
                 <svg class="bi" width="32" height="32" fill="currentColor">
                     <use xlink:href="../../assets/fonts/bootstrap-icons.svg#emoji-sunglasses"/>
@@ -43,7 +43,7 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let user of users">
-                    <td>{{user._id}}</td>
+                    <td> <button [routerLink]="['/users/', user._id]">{{user._id}}</button> </td>
                     <td>{{user.age}}</td>
                     <td>{{user.name.firstName}}</td>
                     <td>{{user.name.middleName}}</td>
@@ -53,9 +53,12 @@
                     <td>{{user.address.city}}</td>
                     <td>{{user.address.state}}</td>
                     <td>{{user.address.zip}}</td>
+
                 </tr>
                 </tbody>
             </table>
+
+
 
         </div>
     </div>
