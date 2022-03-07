@@ -11,9 +11,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MainComponent } from './main.component';
 
+// import { ChildComponent } from './child.component';
 import {UserService} from '../../components/services/user.service';
 import {SquarePipe} from '../../components/pipes/square.pipe';
 import {CreateUserModule} from "../../components/modals/createUser/createUser.module";
+import {UpdateUserModule} from "../../components/modals/updateUser/updateUser.module";
 import { TestAlertModule } from "../../components/alerts/testAlert.module";
 
 export const ROUTES: Routes = [
@@ -25,20 +27,24 @@ export const ROUTES: Routes = [
     imports: [
         BrowserModule,
         FormsModule,
+        // AboutModule,
+        UpdateUserModule,
+        CreateUserModule,
         BrowserAnimationsModule,
         RouterModule.forChild(ROUTES),
-        CreateUserModule,
         TestAlertModule,
-        TooltipModule.forRoot(),
         AlertModule.forRoot(),
+        TooltipModule.forRoot(),
     ],
     declarations: [
         MainComponent,
+        // ChildComponent,
         SquarePipe
     ],
 
     exports: [
         MainComponent,
+        // ChildComponent,
     ],
 
     providers: [

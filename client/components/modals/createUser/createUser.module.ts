@@ -15,10 +15,10 @@ import {MainComponent} from "../../../app/main/main.component";
 
 @NgModule({
     imports: [
+        ModalModule.forRoot(),
         BrowserModule,
         FormsModule,
-        ModalModule.forRoot(),
-        TooltipModule.forRoot(),
+        ModalModule.forRoot()
     ],
     declarations: [
         CreateUserComponent
@@ -28,10 +28,7 @@ import {MainComponent} from "../../../app/main/main.component";
         CreateUserComponent,
     ],
 
-    providers: [
-        BsModalService,
-        UserService
-    ]
+    providers: [],
 })
 
 export class CreateUserModule {}

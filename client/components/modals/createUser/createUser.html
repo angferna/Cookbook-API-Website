@@ -1,17 +1,103 @@
-<button type="button" class="btn btn-primary" (click)="openModal(template)">Open modal</button>
+<!--<button type="button" class="btn btn-primary" (click)="openModal(template)">Open modal</button>-->
 
-<ng-template #template>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">×</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        This is a sample modal dialog box.
-    </div>
-    <div class="modal-footer">
-        Name: <input [(ngModel)]="user.name">
-<!--        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>-->
-    </div>
+<!--<ng-template #template>-->
+<!--    <div class="modal-header">-->
+<!--        <h4 class="modal-title pull-left">Modal</h4>-->
+<!--        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
+<!--            <span aria-hidden="true">×</span>-->
+<!--        </button>-->
+<!--    </div>-->
+<!--    <div class="modal-body">-->
+<!--        This is a sample modal dialog box.-->
+<!--    </div>-->
+<!--    <div class="modal-footer">-->
+<!--        Name: <input [(ngModel)]="user.name">-->
+<!--&lt;!&ndash;        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>&ndash;&gt;-->
+<!--    </div>-->
+<!--</ng-template>-->
+
+<button type="button" class="btn btn-primary" (click)="openModal(createUserTemplate)">Create New User</button>
+
+<ng-template #createUserTemplate>
+    <form id="createUser" name="createUser" role="form" class="form-horizontal">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Creating a new user</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div role="alert" [hidden]="!formError" class="alert alert-danger">{{ formError }}</div>
+            <div role="alert" [hidden]="!formInfo" class="alert alert-info">{{ formInfo }}</div>
+            <div class="form-group">
+                <label for="age" class="col-2 col-sm-2 control-label">Age</label>
+                <div class="col-10 col-sm-10">
+                    <input id="age" name="age" required="required" [(ngModel)]="user.age" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstName" class="col-2 col-sm-2 control-label">First Name</label>
+                <div class="col-10 col-sm-10">
+                    <input id="firstName" name="firstName" required="required" [(ngModel)]="user.name.firstName"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastName" class="col-2 col-sm-2 control-label">Middle Name</label>
+                <div class="col-10 col-sm-10">
+                    <input id="middleName" name="middleName" required="required" [(ngModel)]="user.name.middleName"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastName" class="col-2 col-sm-2 control-label">Last Name</label>
+                <div class="col-10 col-sm-10">
+                    <input id="lastName" name="lastName" required="required" [(ngModel)]="user.name.lastName"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="addressline1" class="col-2 col-sm-2 control-label">Address Line 1</label>
+                <div class="col-10 col-sm-10">
+                    <input id="addressline1" name="addressline1" required="required"
+                           [(ngModel)]="user.address.addressLine1" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="addressLine2" class="col-2 col-sm-2 control-label">Address Line 2</label>
+                <div class="col-10 col-sm-10">
+                    <input id="addressLine2" name="addressLine2" [(ngModel)]="user.address.addressLine2"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="city" class="col-2 col-sm-2 control-label">City</label>
+                <div class="col-10 col-sm-10">
+                    <input id="city" name="city" required="required" [(ngModel)]="user.address.city"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="state" class="col-2 col-sm-2 control-label">State</label>
+                <div class="col-10 col-sm-10">
+                    <input id="state" name="state" required="required" [(ngModel)]="user.address.state"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="zip" class="col-2 col-sm-2 control-label">Zip</label>
+                <div class="col-10 col-sm-10">
+                    <input id="zip" name="zip" required="required" [(ngModel)]="user.address.zip"
+                           class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button (click)="modalRef.hide()" type="button" class="btn btndefault">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" (click)="createUser()">Create User</button>
+        </div>
+    </form>
 </ng-template>
+
