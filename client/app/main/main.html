@@ -30,38 +30,38 @@
 <table class="table table-striped table-bordered">
     <thead>
     <tr class="d-flex">
-        <th>Id</th>
-        <th>Age</th>
-        <th>First Name</th>
-        <th class="d-none d-md-block">Middle Name</th>
-        <th>Last Name</th>
-        <th class="d-none d-lg-block">Address Line 1</th>
-        <th class="d-none d-lg-block">Address Line 2</th>
-        <th class="d-none d-md-block">City</th>
-        <th class="d-none d-md-block">State</th>
-        <th class="d-none d-md-block">Zip</th>
-        <th>Edit User</th>
+        <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">Id</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Age</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">First Name</th>
+        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">Middle Name</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Last Name</th>
+        <th class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">Address Line 1</th>
+        <th class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">Address Line 2</th>
+        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">City</th>
+        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">State</th>
+        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">Zip</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Edit User</th>
     </tr>
     </thead>
     <tbody>
     <tr class="d-flex" *ngFor="let user of users">
-        <td>
+        <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
             <button [routerLink]="['/users', user._id]"
                     type="button"
                     class="btn btn-outline-secondary"
                     style="word-break: break-all">{{user._id}}
             </button>
         </td>
-        <td>{{user.age}}</td>
-        <td>{{user.name.firstName}}</td>
-        <td class="d-none d-md-block">{{user.name.middleName}}</td>
-        <td>{{user.name.lastName}}</td>
-        <td class="d-none d-lg-block">{{user.address.addressLine1}}</td>
-        <td class="d-none d-lg-block">{{user.address.addressLine2}}</td>
-        <td class="d-none d-md-block">{{user.address.city}}</td>
-        <td class="d-none d-md-block">{{user.address.state}}</td>
-        <td class="d-none d-md-block">{{user.address.zip}}</td>
-        <td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.age}}</td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.name.firstName}}</td>
+        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.name.middleName}}</td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.name.lastName}}</td>
+        <td class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">{{user.address.addressLine1}}</td>
+        <td class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">{{user.address.addressLine2}}</td>
+        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.city}}</td>
+        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.state}}</td>
+        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.zip}}</td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
             <button (click)="updateUser(user)"
                     type="button" class="btn btn-outline-secondary">Edit User
             </button>
@@ -83,37 +83,65 @@
         <div class="col-12 col-sm-6" style="border: 1px solid;">DIV TWO</div>
     </div>
     <br><br>
-    <div class="row">
-        <button [routerLink]="['/about']" class="btn btn-outline-secondary">About the Author</button>
-    </div>
+
 </div>
 
-<div class="row">
-    <div class="col-sm-12 col-md-3">
+<div class="row d-flex">
+    <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
         <button [routerLink]="['/users', users?users[0]._id:'']"
                 type="button" class="btn btn-outline-secondary"
                 style="word-break: break-all">{{users[0]._id}}
         </button>
     </div>
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
         <button [routerLink]="['/users', users?users[0].name.firstName:'']"
                 type="button" class="btn btn-outline-secondary"
                 style="word-break: break-all">{{users[0].name.firstName}}
         </button>
     </div>
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
         <button [routerLink]="['/users', users?users[0].name.middleName:'']"
                 type="button" class="btn btn-outline-secondary"
                 style="word-break: break-all">{{users[0].name.middleName}}
         </button>
     </div>
-    <div class="col-sm-12 col-md-8 col-lg-4 col-xl-2">
+    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
         <button [routerLink]="['/users', users?users[0].name.lastName:'']"
                 type="button" class="btn btn-outline-secondary"
                 style="word-break: break-all">{{users[0].name.lastName}}
         </button>
     </div>
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-12 d-md-none">
+        <button [routerLink]="['/users', users?users[0].address.addressLine1:'']"
+                type="button" class="btn btn-outline-secondary"
+                style="word-break: break-all">{{users[0].address.addressLine1}}
+        </button>
+    </div>
+    <div class="col-sm-12 d-md-none">
+        <button [routerLink]="['/users', users?users[0].address.addressLine2:'']"
+                type="button" class="btn btn-outline-secondary"
+                style="word-break: break-all">{{users[0].address.addressLine2}}
+        </button>
+    </div>
+    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
+        <button [routerLink]="['/users', users?users[0].address.city:'']"
+                type="button" class="btn btn-outline-secondary"
+                style="word-break: break-all">{{users[0].address.city}}
+        </button>
+    </div>
+    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
+        <button [routerLink]="['/users', users?users[0].address.state:'']"
+                type="button" class="btn btn-outline-secondary"
+                style="word-break: break-all">{{users[0].address.state}}
+        </button>
+    </div>
+    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
+        <button [routerLink]="['/users', users?users[0].address.zip:'']"
+                type="button" class="btn btn-outline-secondary"
+                style="word-break: break-all">{{users[0].address.zip}}
+        </button>
+    </div>
+    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1">
         <button (click)="updateUser(users?users[0]:{})"
                 type="button" class="btn btn-outline-secondary">Edit User
         </button>
