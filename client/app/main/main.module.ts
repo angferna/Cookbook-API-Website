@@ -5,19 +5,20 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { TooltipModule, TooltipConfig } from 'ngx-bootstrap/tooltip';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MainComponent } from './main.component';
 
-// add at line 13:
 import {UserService} from '../../components/services/user.service';
 import {SquarePipe} from '../../components/pipes/square.pipe';
+import {CreateUserModule} from "../../components/modals/createUser/createUser.module";
+import { TestAlertModule } from "../../components/alerts/testAlert.module";
 
 export const ROUTES: Routes = [
     { path: 'home', component: MainComponent },
 ];
-
 
 // update @NgModule declaration to be as follows:
 @NgModule({
@@ -26,8 +27,10 @@ export const ROUTES: Routes = [
         FormsModule,
         BrowserAnimationsModule,
         RouterModule.forChild(ROUTES),
-
+        CreateUserModule,
+        TestAlertModule,
         TooltipModule.forRoot(),
+        AlertModule.forRoot(),
     ],
     declarations: [
         MainComponent,
