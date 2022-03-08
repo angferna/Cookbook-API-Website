@@ -1,3 +1,15 @@
+<nav>
+    <h1 class="logo-heading"> <em>recipes collection</em></h1>
+    <div class="tabs d-flex justify-content-around">
+        <!--        <button type="button">create recipe</button>-->
+        <!--        [routerlink]="[/all-recipes]"-->
+        <!--        (click)="openSearchModal()"-->
+        <button type="button" >search recipes</button>
+        <button [routerLink]="['/home']" type="button">all recipes</button>
+        <create-recipe></create-recipe>
+    </div>
+</nav>
+
 <div class="container">
     <div class="row">
             <div class="row recipe-card">
@@ -12,6 +24,12 @@
                 <h3 class="section-header col-lg-12">Directions:</h3>
                 <div class="recipe-info col-lg-12" *ngFor="let step of recipe.directions;let i=index;trackBy:trackByIndex">
                     <ol class="recipe-info col-lg-12">{{step[i]}}</ol>
+                </div>
+                <h3 class="section-header col-lg-12">User Reviews:</h3>
+                <div class="recipe-info reviews col-lg-12" *ngFor="let review of recipe.reviews">
+                    <p class="recipe-info col-lg-12">{{review?.user}}</p>
+                    <p class="recipe-info col-lg-12">{{review?.ratingReview}}</p>
+                    <p class="recipe-info col-lg-12">{{review?.description}}</p>
                 </div>
             </div>
     </div>
