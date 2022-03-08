@@ -16,7 +16,7 @@ module.exports = _.merge(
     // MongoDB connection options
     mongo: {
         useMongoClient: true,
-        uri: process.env.MONGODB_URI || 'mongodb://web2-mongodb/web2-madfawce'
+        uri: process.env.MONGODB_URI || 'mongodb://web2-mongodb/web2-madfawce-project2'
     },
     // Seed database on startup
         seedDB: true

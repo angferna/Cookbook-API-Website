@@ -1,0 +1,84 @@
+<button type="button" class="btn btn-primary" (click)="openModal(createRecipeTemplate)">Create New Recipe</button>
+
+<ng-template #createRecipeTemplate>
+    <form id="createRecipe" name="createRecipe" role="form" class="form-horizontal">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Creating a new recipe</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div role="alert" [hidden]="!formError" class="alert alert-danger">{{ formError }}</div>
+            <div role="alert" [hidden]="!formInfo" class="alert alert-info">{{ formInfo }}</div>
+<!--            <div class="form-group">-->
+<!--                <label for="age" class="col-2 col-sm-2 control-label">Age</label>-->
+<!--                <div class="col-10 col-sm-10">-->
+<!--                    <input id="age" name="age" required="required" [(ngModel)]="user.age" class="form-control"/>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="form-group">
+                <label for="recipeName" class="col-2 col-sm-2 control-label">Recipe Name</label>
+                <div class="col-10 col-sm-10">
+                    <input id="recipeName" name="recipeName" required="required" [(ngModel)]="recipe.recipeName"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="recipeDescription" class="col-2 col-sm-2 control-label">Recipe Description</label>
+                <div class="col-10 col-sm-10">
+                    <input id="recipeDescription" name="recipeDescription" required="required" [(ngModel)]="recipe.description"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="pictureUrl" class="col-2 col-sm-2 control-label">Image URL</label>
+                <div class="col-10 col-sm-10">
+                    <input id="pictureUrl" name="pictureUrl" required="required" [(ngModel)]="recipe.pictureURL"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="prepTime" class="col-2 col-sm-2 control-label">Prep Time</label>
+                <div class="col-10 col-sm-10">
+                    <input id="prepTime" name="prepTime" required="required"
+                           [(ngModel)]="recipe.prepTime" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cookTime" class="col-2 col-sm-2 control-label">Cook Time</label>
+                <div class="col-10 col-sm-10">
+                    <input id="cookTime" name="cookTime" [(ngModel)]="recipe.cookTime"
+                           class="form-control"/>
+                </div>
+            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="ingredientName" class="col-2 col-sm-2 control-label">Directions</label>-->
+<!--                <div class="col-10 col-sm-10">-->
+<!--                    <input id="ingredientName" name="ingredientName" required="required" [(ngModel)]="recipe.ingredients"-->
+<!--                           class="form-control"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="state" class="col-2 col-sm-2 control-label">State</label>-->
+<!--                <div class="col-10 col-sm-10">-->
+<!--                    <input id="state" name="state" required="required" [(ngModel)]="user.address.state"-->
+<!--                           class="form-control"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="zip" class="col-2 col-sm-2 control-label">Zip</label>-->
+<!--                <div class="col-10 col-sm-10">-->
+<!--                    <input id="zip" name="zip" required="required" [(ngModel)]="user.address.zip"-->
+<!--                           class="form-control"/>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+        <div class="modal-footer">
+            <button (click)="modalRef.hide()" type="button" class="btn btndefault">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" (click)="createRecipe()">Create Recipe</button>
+        </div>
+    </form>
+</ng-template>

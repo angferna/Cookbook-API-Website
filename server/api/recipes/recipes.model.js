@@ -12,22 +12,13 @@ let Schema = mongoose.Schema;
  */
 
 // This schema represents the array of ingredients for a given recipe
-let ingredientSchema = Schema({
-    // ingredientsArray is an Array type that is required
-    ingredientsArray: {type: [String], required: true}
+let ingredient = Schema({
+    // name is a String type that is required
+    name: {type: String, required: true},
+    // amount is a String type that is required
+    amount: {type: String, required: true}
 });
 
-// This schema represents user reviews for a given recipe
-let reviewSchema = Schema({
-    // reviewDescription is a String type that is required
-    reviewDescription: {type: String, required: true},
-    // ratingReview is a Number type that is required
-    ratingReview: {type: Number, required: true},
-    // dateCreated is a Date type that is not required to be given by the user becuase it is automatically set by the server
-    dateCreated: {type: Date, required: false},
-    // userReviewer is a is referenced as a foreign key with the object ID that is required
-    userReviewer: {type: Schema.Types.ObjectId, ref:"User", required: true}
-});
 
 // This schema represents a recipe
 let recipeSchema = Schema({
@@ -44,12 +35,12 @@ let recipeSchema = Schema({
     // directions is an Array that is required
     directions: {type: [String], requires: true},
     // ingredients is a subdocument that is required
-    ingredients: ingredientSchema,
+    ingredients: {type: [ingredient], required: true},
     // reviews is referenced as a foreign key with the object ID that is not required
     // this is not requires, because reviews can only be made after a recipe already exists,
     // and are not required for the existence of the recipe
     reviews: {type: [Schema.Types.ObjectId], required: false, ref: "Review"}
-});
+}, { usePushEach: true });
 
 
 /*
@@ -59,8 +50,7 @@ let recipeSchema = Schema({
   NOTE since the ingredientSchema is embedded within recipeSchema, it does NOT have
   to be created as a model!
  */
-let Review = mongoose.model('Review', reviewSchema);
 let Recipe = mongoose.model('Recipe', recipeSchema);
 
 // Export the two created models, Review and Recipe
-export {Review, Recipe};
+export {Recipe};

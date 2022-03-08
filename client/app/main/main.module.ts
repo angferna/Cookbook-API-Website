@@ -9,6 +9,7 @@ import { TooltipModule, TooltipConfig } from 'ngx-bootstrap/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MainComponent } from './main.component';
+import { CreateRecipeModule } from "../../components/modals/createRecipe/createRecipe.module";
 
 
 export const ROUTES: Routes = [
@@ -22,7 +23,7 @@ export const ROUTES: Routes = [
         FormsModule,
         BrowserAnimationsModule,
         RouterModule.forChild(ROUTES),
-
+        CreateRecipeModule,
 
         TooltipModule.forRoot(),
     ],
