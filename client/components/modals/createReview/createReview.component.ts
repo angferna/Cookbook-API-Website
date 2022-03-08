@@ -21,7 +21,7 @@ export class CreateReviewComponent {
 
     modalRef?: BsModalRef;
 
-    private recipe: Recipe;
+    @Input() recipe: Recipe;
     private review: Review = {
         _id: undefined,
         __v: undefined,
@@ -31,7 +31,9 @@ export class CreateReviewComponent {
         userReviewer: undefined,
     };
 
-    constructor(private modalService: BsModalService, private reviewService: ReviewService) { }
+    constructor(private modalService: BsModalService, private reviewService: ReviewService) {
+        this.reviewService = reviewService;
+    }
 
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalService.show(template);

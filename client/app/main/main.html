@@ -4,83 +4,54 @@
         <!--        <button type="button">create recipe</button>-->
         <!--        [routerlink]="[/all-recipes]"-->
         <!--        (click)="openSearchModal()"-->
-        <button type="button" >search recipes</button>
+<!--        <button type="button" >search recipes</button>-->
+        <button [routerLink]="['/all-users']" type="button">all users</button>
         <button [routerLink]="['/home']" type="button">all recipes</button>
         <create-recipe></create-recipe>
     </div>
 </nav>
 
 <div class="container">
-    <div class="row">
-        <div class="d-flex" *ngFor="let recipe of recipes">
+    <div class="row" *ngFor="let recipe of recipes">
+        <div class="d-flex">
             <div class="row recipe-card">
                 <h1 [routerLink]="['/recipes', recipe._id]" class="recipe-header">{{recipe.recipeName}}</h1>
                 <p class="recipe-info col-lg-12">{{recipe.description}}</p>
-                <p class="recipe-info col-lg-6">{{recipe.prepTime}}</p>
-                <p class="recipe-info col-lg-6">{{recipe.cookTime}}</p>
+                <img src="{{recipe.pictureURL}}">
+                <p class="recipe-info col-lg-6"><strong>Prep Time: </strong>{{recipe.prepTime}}</p>
+                <p class="recipe-info col-lg-6"><strong>Cook Time: </strong>{{recipe.cookTime}}</p>
                 <h3 class="section-header col-lg-12">Ingredients:</h3>
-                <div class="recipe-info ingredients col-lg-12" *ngFor="let ingredients of recipe.ingredients;let i=index;trackBy:trackByIndex">
-                    <ul class="recipe-info col-lg-12">{{ingredients[i].amount}} {{ingredients[i].name}}</ul>
+                <div class="recipe-info ingredients col-lg-12" *ngFor="let ingredients of recipe.ingredients">
+                    <ul class="recipe-info col-lg-12">{{ingredients.amount}} {{ingredients.name}}</ul>
                 </div>
                 <h3 class="section-header col-lg-12">Directions:</h3>
-                <div class="recipe-info directions col-lg-12" *ngFor="let step of recipe.directions;let i=index;trackBy:trackByIndex">
-                    <ol class="recipe-info col-lg-12">{{step[i]}}</ol>
+                <ol>
+                <div class="recipe-info directions col-lg-12" *ngFor="let step of recipe.directions">
+                    <li class="recipe-info col-lg-12">{{step}}</li>
                 </div>
-                <h3 class="section-header col-lg-12">User Reviews:</h3>
-                <div class="recipe-info reviews col-lg-12" *ngFor="let review of recipe.reviews">
-                    <p class="recipe-info col-lg-12">{{review.user}}</p>
-                    <p class="recipe-info col-lg-12">{{review.ratingReview}}</p>
-                    <p class="recipe-info col-lg-12">{{review.description}}</p>
-                </div>
+                </ol>
+
                 <div class="col-lg-12">
                     <update-recipe></update-recipe>
+                    <delete-recipe></delete-recipe>
                     <create-review></create-review>
+                </div>
+
+                <h3 class="section-header col-lg-12">User Reviews:</h3>
+                <div class="recipe-info reviews col-lg-12" *ngFor="let review of recipe.reviews">
+                    <p class="recipe-info col-lg-12"><strong>User Id: </strong>{{review.userReviewer}}</p>
+                    <p class="recipe-info col-lg-12"><strong>Stars out of 5: </strong>{{review.ratingReview}}</p>
+                    <p class="recipe-info col-lg-12"><strong>Review: </strong> <br> {{review.reviewDescription}}</p>
+                    <update-review></update-review>
+<!--                    <button (click)="updateReview(recipe, review)" type="button"-->
+<!--                            class="btn" style="word-break: break-all">update review</button>-->
+                    <button [routerLink]="['/delete-review', recipe, review]" type="button"
+                            class="btn" style="word-break: break-all"> delete review </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<table class="table table-striped table-bordered">
-    <thead>
-    <tr class="d-flex">
-        <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">Id</th>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Age</th>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">First Name</th>
-        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">Middle Name</th>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Last Name</th>
-        <th class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">Address Line 1</th>
-        <th class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">Address Line 2</th>
-        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">City</th>
-        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">State</th>
-        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">Zip</th>
-        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Edit User</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="d-flex" *ngFor="let user of users">
-        <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-            <button [routerLink]="['/users', user._id]"
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    style="word-break: break-all">{{user._id}}
-            </button>
-        </td>
-        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.age}}</td>
-        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.name.firstName}}</td>
-        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.name.middleName}}</td>
-        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.name.lastName}}</td>
-        <td class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">{{user.address.addressLine1}}</td>
-        <td class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">{{user.address.addressLine2}}</td>
-        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.city}}</td>
-        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.state}}</td>
-        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.zip}}</td>
-        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-            <button (click)="updateUser(user)"
-                    type="button" class="btn btn-outline-secondary">Edit User
-            </button>
-        </td>
-    </tr>
-    </tbody>
-</table>
+
 

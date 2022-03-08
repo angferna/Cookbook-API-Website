@@ -1,18 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+
 import { RouterModule, Routes } from '@angular/router';
 
 
 import { TooltipModule, TooltipConfig } from 'ngx-bootstrap/tooltip';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
-import { UpdateRecipeComponent } from './updateRecipe.component';
-import {ModalModule} from 'ngx-bootstrap/modal';
-import {RecipesComponent} from "../../../app/recipes/recipes.component";
+import { ModalModule, BsModalService } from 'ngx-bootstrap/modal'
+import { DeleteReviewComponent } from "./deleteReview.component";
 
-export const ROUTES: Routes = [
-    {path: 'update-recipe/:id', component: UpdateRecipeComponent},
-];
 
 @NgModule({
     imports: [
@@ -20,17 +18,18 @@ export const ROUTES: Routes = [
         FormsModule,
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
-        RouterModule.forChild(ROUTES),
+        AlertModule.forRoot(),
     ],
     declarations: [
-        UpdateRecipeComponent,
+        DeleteReviewComponent,
     ],
 
     exports: [
-        UpdateRecipeComponent,
+        DeleteReviewComponent
     ],
 
     providers: [
     ]
 })
-export class UpdateRecipeModule {}
+
+export class DeleteReviewModule {}

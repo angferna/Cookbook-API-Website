@@ -13,6 +13,7 @@ import {ReviewService} from "../../services/review.service";
 export class UpdateReviewComponent {
     @Input() recipe: Recipe;
     @Input() review: Review;
+
     public formError: String;
     public formInfo: String;
 
@@ -30,7 +31,7 @@ export class UpdateReviewComponent {
         return index;
     }
 
-    updateRecipe() {
+    updateReview() {
         this.reviewService.updateReview(this.recipe, this.review)
             .then(updatedReview => {
                 this.formInfo = 'Review successfully updated!';

@@ -9,6 +9,12 @@ import { TooltipModule, TooltipConfig } from 'ngx-bootstrap/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {RecipesComponent} from "./recipes.component";
+import {CreateRecipeModule} from "../../components/modals/createRecipe/createRecipe.module";
+import {UpdateRecipeModule} from "../../components/modals/updateRecipe/updateRecipe.module";
+import {DeleteRecipeModule} from "../../components/alerts/deleteRecipe/deleteRecipe.module";
+import {CreateReviewModule} from "../../components/modals/createReview/createReview.module";
+import {UpdateReviewModule} from "../../components/modals/updateReview/updateReview.module";
+import {DeleteReviewModule} from "../../components/alerts/deleteReview/deleteReview.module";
 
 
 export const ROUTES: Routes = [
@@ -22,6 +28,14 @@ export const ROUTES: Routes = [
         FormsModule,
         BrowserAnimationsModule,
         RouterModule.forChild(ROUTES),
+
+        CreateRecipeModule,
+        UpdateRecipeModule,
+        DeleteRecipeModule,
+
+        CreateReviewModule,
+        UpdateReviewModule,
+        DeleteReviewModule,
 
         TooltipModule.forRoot(),
     ],
@@ -37,4 +51,4 @@ export const ROUTES: Routes = [
 })
 
 
-export class UsersModule {}
+export class RecipesModule {}

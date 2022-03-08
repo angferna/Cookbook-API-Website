@@ -16,56 +16,56 @@
             <label for="recipeName" class="col-10 control-label">Recipe Name</label>
             <div class="col-10 col-sm-10">
                 <input id="recipeName" name="recipeName" required="required" [(ngModel)]="recipe.recipeName"
-                       class="form-control" value="{{recipe.recipeName}}"/>
+                       class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label for="recipeDescription" class="col-10 control-label">Recipe Description</label>
             <div class="col-10 col-sm-10">
                 <input id="recipeDescription" name="recipeDescription" required="required" [(ngModel)]="recipe.description"
-                       class="form-control" value="{{recipe.description}}"/>
+                       class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label for="pictureUrl" class="col-10 control-label">Image URL</label>
             <div class="col-10 col-sm-10">
                 <input id="pictureUrl" name="pictureUrl" required="required" [(ngModel)]="recipe.pictureURL"
-                       class="form-control" value="{{recipe.pictureURL}}"/>
+                       class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label for="prepTime" class="col-10 control-label">Prep Time</label>
             <div class="col-10 col-sm-10">
-                <input id="prepTime" name="prepTime" required="required" [(ngModel)]="recipe.prepTime"
-                       class="form-control" value="{{recipe.prepTime}}"/>
+                <input id="prepTime" name="prepTime" required="required"
+                       [(ngModel)]="recipe.prepTime" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
             <label for="cookTime" class="col-10 control-label">Cook Time</label>
             <div class="col-10 col-sm-10">
-                <input id="cookTime" name="cookTime" required="required" [(ngModel)]="recipe.cookTime"
-                       class="form-control" value="{{recipe.cookTime}}"/>
+                <input id="cookTime" name="cookTime" required="required"
+                       [(ngModel)]="recipe.cookTime" class="form-control"/>
             </div>
         </div>
 
         <div class ="form-group" *ngFor="let x of recipe.directions; let i = index;trackBy:trackByIndex">
             <label for="direction" class="col-10 control-label">Direction Step</label>
             <div class="col-10 col-sm-10">
-                <input id="direction" name="direction" required="required" type="string"
-                       [(ngModel)]="recipe.directions[i]" class="form-control" value="{{recipe.directions[i]}}">
+                <input id="direction" name="direction" required="required"
+                       type="string" [(ngModel)]="recipe.directions[i]" class="form-control">
             </div>
         </div>
 
         <div class ="form-group" *ngFor="let x of recipe.ingredients; let i = index;trackBy:trackByIndex">
             <label for="ingredientName" class="col-10 control-label">Ingredient Name</label>
             <div class="col-10 col-sm-10">
-                <input id="ingredientName" name="ingredientName" required="required" type="string"
-                       [(ngModel)]="recipe.ingredients[i].name" class="form-control" value="{{recipe.ingredients[i].name}}">
+                <input id="ingredientName" name="ingredientName" required="required"
+                       type="string" [(ngModel)]="recipe.ingredients[i].name" class="form-control">
             </div>
             <label for="ingredientAmount" class="col-10 control-label">Ingredient Amount</label>
             <div class="col-10 col-sm-10">
-                <input id="ingredientAmount" name="ingredientAmount" required="required" type="string"
-                       [(ngModel)]="recipe.ingredients[i].amount" class="form-control"value="{{recipe.ingredients[i].amount}}">
+                <input id="ingredientAmount" name="ingredientAmount" required="required"
+                       type="string" [(ngModel)]="recipe.ingredients[i].amount" class="form-control">
             </div>
         </div>
 

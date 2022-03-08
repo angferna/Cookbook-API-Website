@@ -9,9 +9,9 @@ export class UserService {
     constructor(private httpClient: HttpClient) {
         this.httpClient = httpClient;
     }
-    getAllUsers(): Promise<Users> {
+    getAllUsers(): Promise<User[]> {
         return this.httpClient
-            .get<Users>('/api/users')
+            .get<User[]>('/api/users')
             .toPromise();
     }
 

@@ -1,0 +1,42 @@
+.logo-heading{
+    font-family: 'Bodoni Moda', serif;
+    font-size: 600%;
+    font-weight: 900;
+
+    text-align: center;
+}
+
+.tabs{
+    margin: 20px;
+    font-family: 'Bodoni Moda', serif;
+
+}
+
+img{
+    object-fit:cover;
+    width: 300px;
+    height: 200px;
+    display: block;
+}
+
+button{
+    font-weight: 80;
+    padding: 15px;
+    border: solid black;
+    border-radius: 15px;
+    background-color: white;
+}
+
+button:hover{
+    background-color: lightpink;
+}
+
+.section-header{
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 200;
+}
+
+.recipe-header {
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 600;
+}

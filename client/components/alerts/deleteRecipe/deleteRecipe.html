@@ -1,0 +1,6 @@
+<button type="button" class="btn btn-primary" (click)="deleteRecipe()">delete recipe</button>
+
+
+<div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissible]="dismissible" [isOpen]="open" (onClosed)="onClosed(alert)">{{ alert.msg }}</alert>
+</div>

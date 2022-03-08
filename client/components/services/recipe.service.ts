@@ -12,9 +12,9 @@ export class RecipeService {
         this.httpClient = httpClient;
     }
 
-    getAllRecipes(): Promise<Recipes> {
+    getAllRecipes(): Promise<Recipe[]> {
         return this.httpClient
-            .get<Recipes>('/api/recipes')
+            .get<Recipe[]>('/api/recipes')
             .toPromise();
     }
 
@@ -34,6 +34,12 @@ export class RecipeService {
     createRecipe(recipe: Recipe): Promise<Recipe> {
         return this.httpClient
             .post<Recipe>(`/api/recipes`, recipe)
+            .toPromise();
+    }
+
+    deleteRecipe(recipe: Recipe): Promise<any> {
+        return this.httpClient
+            .delete<any>(`/api/recipes/${recipe._id}`)
             .toPromise();
     }
 }

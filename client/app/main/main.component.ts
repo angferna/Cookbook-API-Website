@@ -30,14 +30,14 @@ export class MainComponent implements OnInit {
     public getRecipeData() {
         this.recipeService.getAllRecipes()
             .then(response => {
-                this.recipes = response.recipes as Recipe[];
+                this.recipes = response as Recipe[];
             })
             .catch(this.handleError);
     }
     public getUserData() {
         this.userService.getAllUsers()
             .then(response => {
-                this.users = response.users as User[];
+                this.users = response as User[];
             })
             .catch(this.handleError);
     }

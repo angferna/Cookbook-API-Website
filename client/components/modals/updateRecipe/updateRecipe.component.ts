@@ -1,7 +1,9 @@
-import {Component, Input, TemplateRef} from '@angular/core';
+import {Component, Input, TemplateRef, OnInit} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {Recipe} from '../../interfaces/recipe';
 import {RecipeService} from '../../services/recipe.service';
+import { ActivatedRoute } from '@angular/router'
+
 
 @Component({
     selector: 'update-recipe',
@@ -38,4 +40,10 @@ export class UpdateRecipeComponent {
                 this.formError = error.toString();
             });
     }
+
+    private handleError(error: any): Promise<any> {
+        console.error('Something has gone wrong', error);
+        return Promise.reject(error.message || error);
+    }
+
 }

@@ -22,9 +22,16 @@ export class ReviewService {
             .put<Review>(`/api/recipes/${recipe._id}/${review._id}`, review)
             .toPromise();
     }
+
     createReview(recipe: Recipe, review: Review): Promise<Review> {
         return this.httpClient
             .post<Review>(`/api/recipes/${recipe._id}/${review._id}`, review)
+            .toPromise();
+    }
+
+    deleteReview(recipe: Recipe, review: Review): Promise<any> {
+        return this.httpClient
+            .delete<any>(`/api/recipes/${recipe._id}/${review._id}`)
             .toPromise();
     }
 }

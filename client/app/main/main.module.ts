@@ -15,6 +15,10 @@ import {UserService} from "../../components/services/user.service";
 import {UpdateRecipeModule} from "../../components/modals/updateRecipe/updateRecipe.module";
 import {ReviewService} from "../../components/services/review.service";
 import {CreateReviewModule} from "../../components/modals/createReview/createReview.module";
+import {DeleteReviewModule} from "../../components/alerts/deleteReview/deleteReview.module";
+import {DeleteRecipeModule} from "../../components/alerts/deleteRecipe/deleteRecipe.module";
+import {RecipesModule} from "../recipes/recipes.module";
+import {UpdateReviewModule} from "../../components/modals/updateReview/updateReview.module";
 
 
 export const ROUTES: Routes = [
@@ -29,9 +33,16 @@ export const ROUTES: Routes = [
 
         BrowserAnimationsModule,
         RouterModule.forChild(ROUTES),
+
         CreateRecipeModule,
         UpdateRecipeModule,
+        DeleteRecipeModule,
+
         CreateReviewModule,
+        UpdateReviewModule,
+        DeleteReviewModule,
+
+        RecipesModule,
 
         TooltipModule.forRoot(),
     ],

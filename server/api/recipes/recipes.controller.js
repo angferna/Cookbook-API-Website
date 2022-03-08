@@ -142,7 +142,7 @@ export function update(req, res) {
             if(existingRecipe) {
                 existingRecipe.recipeName = req.body.recipeName;
                 existingRecipe.description = req.body.description;
-                existingRecipe.image = req.body.image;
+                existingRecipe.pictureURL = req.body.pictureURL;
                 existingRecipe.prepTime = req.body.prepTime;
                 existingRecipe.cookTime = req.body.cookTime;
                 existingRecipe.directions = req.body.directions;
