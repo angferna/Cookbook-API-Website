@@ -5,10 +5,13 @@ import {Recipe} from "../interfaces/recipe";
 
 @Injectable()
 export class RecipeService {
+
     static parameters = [HttpClient];
+
     constructor(private httpClient: HttpClient) {
         this.httpClient = httpClient;
     }
+
     getAllRecipes(): Promise<Recipes> {
         return this.httpClient
             .get<Recipes>('/api/recipes')
@@ -27,6 +30,7 @@ export class RecipeService {
             .put<Recipe>(`/api/recipes/${recipe._id}`, recipe)
             .toPromise();
     }
+
     createRecipe(recipe: Recipe): Promise<Recipe> {
         return this.httpClient
             .post<Recipe>(`/api/recipes`, recipe)

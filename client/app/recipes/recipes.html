@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+            <div class="row recipe-card">
+                <h1 class="recipe-header">{{recipe?.recipeName}}</h1>
+                <p class="recipe-info col-lg-12">{{recipe?.description}}</p>
+                <p class="recipe-info col-lg-6">{{recipe?.prepTime}}</p>
+                <p class="recipe-info col-lg-6">{{recipe?.cookTime}}</p>
+                <h3 class="section-header col-lg-12">Ingredients:</h3>
+                <div class="recipe-info ingredients col-lg-12" *ngFor="let ingredients of recipe.ingredients;let i=index;trackBy:trackByIndex">
+                    <ul class="recipe-info col-lg-12">{{ingredients[i]?.amount}} {{ingredients[i]?.name}}</ul>
+                </div>
+                <h3 class="section-header col-lg-12">Directions:</h3>
+                <div class="recipe-info col-lg-12" *ngFor="let step of recipe.directions;let i=index;trackBy:trackByIndex">
+                    <ol class="recipe-info col-lg-12">{{step[i]}}</ol>
+                </div>
+            </div>
+    </div>
+</div>

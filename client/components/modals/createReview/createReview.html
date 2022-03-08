@@ -1,0 +1,43 @@
+<button type="button" class="btn-primary" (click)="openModal(createReviewTemplate)">leave a review</button>
+
+<ng-template #createReviewTemplate>
+    <form id="createReview" name="createReview" role="form" class="form-horizontal">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Creating a new review</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div role="alert" [hidden]="!formError" class="alert alert-danger">{{ formError }}</div>
+            <div role="alert" [hidden]="!formInfo" class="alert alert-info">{{ formInfo }}</div>
+            <div class="form-group">
+                <label for="userReviewer" class="col-10 control-label">Username</label>
+                <div class="col-10 col-sm-10">
+                    <input id="userReviewer" name="userReviewer" required="required" [(ngModel)]="review.userReviewer"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="reviewDescription" class="col-10 control-label">Review Description</label>
+                <div class="col-10 col-sm-10">
+                    <input id="reviewDescription" name="reviewDescription" required="required" [(ngModel)]="review.reviewDescription"
+                           class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ratingReview" class="col-10 control-label">Rate the recipe out of 5</label>
+                <div class="col-10 col-sm-10">
+                    <input id="ratingReview" name="ratingReview" required="required" [(ngModel)]="review.ratingReview"
+                           class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button (click)="modalRef.hide()" type="button" class="btn btndefault">
+                cancel
+            </button>
+            <button type="submit" class="btn btn-primary" (click)="createReview()">submit review</button>
+        </div>
+    </form>
+</ng-template>

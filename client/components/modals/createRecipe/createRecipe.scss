@@ -1,0 +1,22 @@
+
+btn{
+    color: black;
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 80;
+}
+
+.btn-primary{
+    color: black;
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 80;
+
+    padding: 15px;
+
+    border: solid black;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.btn-primary:hover{
+    background-color: lightpink;
+}

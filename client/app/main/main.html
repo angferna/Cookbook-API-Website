@@ -1,29 +1,81 @@
 <nav>
     <h1 class="logo-heading"> <em>family recipes</em></h1>
     <div class="tabs d-flex justify-content-around">
-        <button type="button" >all recipes</button>
+
 <!--        [routerlink]="[/all-recipes]"-->
         <button type="button" >search recipes</button>
 <!--        (click)="openSearchModal()"-->
-        <button type="button">create recipe</button>
+<!--        <button type="button">create recipe</button>-->
         <create-recipe></create-recipe>
     </div>
 </nav>
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-12">
-            <h1>
-                <i class="fa fa-camera-retro fa-lg"></i> Here's a camera icon using Font Awesome!
-            </h1>
-            <br><br>
-            <h1 class="page-header">
-                More to come soon!
-                <svg class="bi" width="32" height="32" fill="currentColor">
-                    <use xlink:href="../../assets/fonts/bootstrap-icons.svg#emoji-sunglasses"/>
-                </svg>
-                <br><br>
-            </h1>
+        <div class="d-flex" *ngFor="let recipe of recipes">
+            <div class="row recipe-card">
+                <button [routerLink]="['/recipes', recipe._id]" type="button" >all recipes</button>
+                <h1 class="recipe-header">{{recipe.recipeName}}</h1>
+                <p class="recipe-info col-lg-12">{{recipe.description}}</p>
+                <p class="recipe-info col-lg-6">{{recipe.prepTime}}</p>
+                <p class="recipe-info col-lg-6">{{recipe.cookTime}}</p>
+                <h3 class="section-header col-lg-12">Ingredients:</h3>
+                <div class="recipe-info ingredients col-lg-12" *ngFor="let ingredients of recipe.ingredients;let i=index;trackBy:trackByIndex">
+                    <ul class="recipe-info col-lg-12">{{ingredients[i].amount}} {{ingredients[i].name}}</ul>
+                </div>
+                <h3 class="section-header col-lg-12">Directions:</h3>
+                <div class="recipe-info col-lg-12" *ngFor="let step of recipe.directions;let i=index;trackBy:trackByIndex">
+                    <ol class="recipe-info col-lg-12">{{step[i]}}</ol>
+                </div>
+                <div class="col-lg-12">
+                    <update-recipe></update-recipe>
+                    <create-review></create-review>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr class="d-flex">
+        <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">Id</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Age</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">First Name</th>
+        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">Middle Name</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Last Name</th>
+        <th class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">Address Line 1</th>
+        <th class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">Address Line 2</th>
+        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">City</th>
+        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">State</th>
+        <th class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">Zip</th>
+        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">Edit User</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="d-flex" *ngFor="let user of users">
+        <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+            <button [routerLink]="['/users', user._id]"
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    style="word-break: break-all">{{user._id}}
+            </button>
+        </td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.age}}</td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.name.firstName}}</td>
+        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.name.middleName}}</td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">{{user.name.lastName}}</td>
+        <td class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">{{user.address.addressLine1}}</td>
+        <td class="d-none d-lg-block col-md-1 col-lg-1 col-xl-1">{{user.address.addressLine2}}</td>
+        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.city}}</td>
+        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.state}}</td>
+        <td class="d-none d-md-block col-md-1 col-lg-1 col-xl-1">{{user.address.zip}}</td>
+        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+            <button (click)="updateUser(user)"
+                    type="button" class="btn btn-outline-secondary">Edit User
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+

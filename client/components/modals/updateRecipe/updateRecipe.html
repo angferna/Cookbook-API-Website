@@ -1,10 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<button type="button" class="btn btn-primary" (click)="openModal(updateRecipeTemplate)">update recipe</button>
 
-</body>
-</html>
+<ng-template #updateRecipeTemplate>
+    <div role="alert" [hidden]="!formError" class="alert alert-danger">{{ formError }}</div>
+    <div role="alert" [hidden]="!formInfo" class="alert alert-info">{{ formInfo }}</div>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div role="alert" [hidden]="!formError" class="alert alert-danger">{{ formError }}</div>
+        <div role="alert" [hidden]="!formInfo" class="alert alert-info">{{ formInfo }}</div>
+        <div class="form-group">
+            <label for="recipeName" class="col-10 control-label">Recipe Name</label>
+            <div class="col-10 col-sm-10">
+                <input id="recipeName" name="recipeName" required="required" [(ngModel)]="recipe.recipeName"
+                       class="form-control" value="{{recipe.recipeName}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="recipeDescription" class="col-10 control-label">Recipe Description</label>
+            <div class="col-10 col-sm-10">
+                <input id="recipeDescription" name="recipeDescription" required="required" [(ngModel)]="recipe.description"
+                       class="form-control" value="{{recipe.description}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pictureUrl" class="col-10 control-label">Image URL</label>
+            <div class="col-10 col-sm-10">
+                <input id="pictureUrl" name="pictureUrl" required="required" [(ngModel)]="recipe.pictureURL"
+                       class="form-control" value="{{recipe.pictureURL}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="prepTime" class="col-10 control-label">Prep Time</label>
+            <div class="col-10 col-sm-10">
+                <input id="prepTime" name="prepTime" required="required" [(ngModel)]="recipe.prepTime"
+                       class="form-control" value="{{recipe.prepTime}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cookTime" class="col-10 control-label">Cook Time</label>
+            <div class="col-10 col-sm-10">
+                <input id="cookTime" name="cookTime" required="required" [(ngModel)]="recipe.cookTime"
+                       class="form-control" value="{{recipe.cookTime}}"/>
+            </div>
+        </div>
+
+        <div class ="form-group" *ngFor="let x of recipe.directions; let i = index;trackBy:trackByIndex">
+            <label for="direction" class="col-10 control-label">Direction Step</label>
+            <div class="col-10 col-sm-10">
+                <input id="direction" name="direction" required="required" type="string"
+                       [(ngModel)]="recipe.directions[i]" class="form-control" value="{{recipe.directions[i]}}">
+            </div>
+        </div>
+
+        <div class ="form-group" *ngFor="let x of recipe.ingredients; let i = index;trackBy:trackByIndex">
+            <label for="ingredientName" class="col-10 control-label">Ingredient Name</label>
+            <div class="col-10 col-sm-10">
+                <input id="ingredientName" name="ingredientName" required="required" type="string"
+                       [(ngModel)]="recipe.ingredients[i].name" class="form-control" value="{{recipe.ingredients[i].name}}">
+            </div>
+            <label for="ingredientAmount" class="col-10 control-label">Ingredient Amount</label>
+            <div class="col-10 col-sm-10">
+                <input id="ingredientAmount" name="ingredientAmount" required="required" type="string"
+                       [(ngModel)]="recipe.ingredients[i].amount" class="form-control"value="{{recipe.ingredients[i].amount}}">
+            </div>
+        </div>
+
+    </div>
+    <button (click)="updateRecipe()" class="btn btn-primary">update recipe</button>
+</ng-template>

@@ -10,6 +10,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MainComponent } from './main.component';
 import { CreateRecipeModule } from "../../components/modals/createRecipe/createRecipe.module";
+import {RecipeService} from "../../components/services/recipe.service";
+import {UserService} from "../../components/services/user.service";
+import {UpdateRecipeModule} from "../../components/modals/updateRecipe/updateRecipe.module";
+import {ReviewService} from "../../components/services/review.service";
+import {CreateReviewModule} from "../../components/modals/createReview/createReview.module";
 
 
 export const ROUTES: Routes = [
@@ -21,9 +26,12 @@ export const ROUTES: Routes = [
     imports: [
         BrowserModule,
         FormsModule,
+
         BrowserAnimationsModule,
         RouterModule.forChild(ROUTES),
         CreateRecipeModule,
+        UpdateRecipeModule,
+        CreateReviewModule,
 
         TooltipModule.forRoot(),
     ],
@@ -34,5 +42,10 @@ export const ROUTES: Routes = [
     exports: [
         MainComponent,
     ],
+    providers: [
+        RecipeService,
+        UserService,
+        ReviewService,
+    ]
 })
 export class MainModule {}

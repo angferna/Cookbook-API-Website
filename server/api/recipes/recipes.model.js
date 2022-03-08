@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 // import User from the users.model file because it is referenced in the reviewSchema
-import User from '../users/users.model';
 
 
 let Schema = mongoose.Schema;
@@ -31,7 +30,7 @@ let recipeSchema = Schema({
     // prepTime is a Number type that is required
     prepTime: {type: Number, required: true},
     // cookingTime is a Number type that is required
-    cookingTime: {type: Number, required: true},
+    cookTime: {type: Number, required: true},
     // directions is an Array that is required
     directions: {type: [String], requires: true},
     // ingredients is a subdocument that is required

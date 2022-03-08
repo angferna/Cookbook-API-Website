@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary" (click)="openModal(createRecipeTemplate)">Create New Recipe</button>
+<button type="button" class="btn-primary" (click)="openModal(createRecipeTemplate)">create new recipe</button>
 
 <ng-template #createRecipeTemplate>
     <form id="createRecipe" name="createRecipe" role="form" class="form-horizontal">
@@ -11,45 +11,60 @@
         <div class="modal-body">
             <div role="alert" [hidden]="!formError" class="alert alert-danger">{{ formError }}</div>
             <div role="alert" [hidden]="!formInfo" class="alert alert-info">{{ formInfo }}</div>
-<!--            <div class="form-group">-->
-<!--                <label for="age" class="col-2 col-sm-2 control-label">Age</label>-->
-<!--                <div class="col-10 col-sm-10">-->
-<!--                    <input id="age" name="age" required="required" [(ngModel)]="user.age" class="form-control"/>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="form-group">
-                <label for="recipeName" class="col-2 col-sm-2 control-label">Recipe Name</label>
+                <label for="recipeName" class="col-10 control-label">Recipe Name</label>
                 <div class="col-10 col-sm-10">
                     <input id="recipeName" name="recipeName" required="required" [(ngModel)]="recipe.recipeName"
                            class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="recipeDescription" class="col-2 col-sm-2 control-label">Recipe Description</label>
+                <label for="recipeDescription" class="col-10 control-label">Recipe Description</label>
                 <div class="col-10 col-sm-10">
                     <input id="recipeDescription" name="recipeDescription" required="required" [(ngModel)]="recipe.description"
                            class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="pictureUrl" class="col-2 col-sm-2 control-label">Image URL</label>
+                <label for="pictureUrl" class="col-10 control-label">Image URL</label>
                 <div class="col-10 col-sm-10">
                     <input id="pictureUrl" name="pictureUrl" required="required" [(ngModel)]="recipe.pictureURL"
                            class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="prepTime" class="col-2 col-sm-2 control-label">Prep Time</label>
+                <label for="prepTime" class="col-10 control-label">Prep Time</label>
                 <div class="col-10 col-sm-10">
                     <input id="prepTime" name="prepTime" required="required"
                            [(ngModel)]="recipe.prepTime" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="cookTime" class="col-2 col-sm-2 control-label">Cook Time</label>
+                <label for="cookTime" class="col-10 control-label">Cook Time</label>
                 <div class="col-10 col-sm-10">
-                    <input id="cookTime" name="cookTime" [(ngModel)]="recipe.cookTime"
-                           class="form-control"/>
+                    <input id="cookTime" name="cookTime" required="required"
+                           [(ngModel)]="recipe.cookTime" class="form-control"/>
+                </div>
+            </div>
+
+            <div class ="form-group" *ngFor="let x of recipe.directions; let i = index;trackBy:trackByIndex">
+                <label for="direction" class="col-10 control-label">Direction Step</label>
+                <div class="col-10 col-sm-10">
+                    <input id="direction" name="direction" required="required"
+                           type="string" [(ngModel)]="recipe.directions[i]" class="form-control">
+                </div>
+            </div>
+
+            <div class ="form-group" *ngFor="let x of recipe.ingredients; let i = index;trackBy:trackByIndex">
+                <label for="ingredientName" class="col-10 control-label">Ingredient Name</label>
+                <div class="col-10 col-sm-10">
+                    <input id="ingredientName" name="ingredientName" required="required"
+                           type="string" [(ngModel)]="recipe.ingredients[i].name" class="form-control">
+                </div>
+                <label for="ingredientAmount" class="col-10 control-label">Ingredient Amount</label>
+                <div class="col-10 col-sm-10">
+                    <input id="ingredientAmount" name="ingredientAmount" required="required"
+                           type="string" [(ngModel)]="recipe.ingredients[i].amount" class="form-control">
                 </div>
             </div>
 <!--            <div class="form-group">-->
@@ -76,9 +91,9 @@
         </div>
         <div class="modal-footer">
             <button (click)="modalRef.hide()" type="button" class="btn btndefault">
-                Cancel
+                cancel
             </button>
-            <button type="submit" class="btn btn-primary" (click)="createRecipe()">Create Recipe</button>
+            <button type="submit" class="btn btn-primary" (click)="createRecipe()">create recipe</button>
         </div>
     </form>
 </ng-template>

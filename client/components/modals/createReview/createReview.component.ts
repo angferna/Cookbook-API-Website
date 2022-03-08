@@ -5,14 +5,15 @@ import { UserService } from "../../services/user.service";
 import {Review} from "../../interfaces/review";
 import {Recipe} from "../../interfaces/recipe";
 import {RecipeService} from "../../services/recipe.service";
+import {ReviewService} from "../../services/review.service";
 
 @Component({
-    selector: 'create-recipe',
-    templateUrl: './createRecipe.html',
-    styleUrls: ['./createRecipe.scss'],
+    selector: 'create-review',
+    templateUrl: './createReview.html',
+    styleUrls: ['./createReview.scss'],
 })
 
-export class CreateRecipeComponent {
+export class CreateReviewComponent {
     private formError: String;
     private formInfo: String;
 
@@ -20,33 +21,27 @@ export class CreateRecipeComponent {
 
     modalRef?: BsModalRef;
 
-    private recipe: Recipe = {
+    private recipe: Recipe;
+    private review: Review = {
         _id: undefined,
         __v: undefined,
-        recipeName: undefined,
-        description: undefined,
-        pictureURL: undefined,
-        prepTime: undefined,
-        cookTime: undefined,
-        ingredients: [{
-                name: undefined,
-                amount: undefined,
-            }],
-        directions: [undefined],
-        reviews: undefined,
+        reviewDescription: undefined,
+        ratingReview: undefined,
+        dateCreated: undefined,
+        userReviewer: undefined,
     };
 
-    constructor(private modalService: BsModalService, private recipeService: RecipeService) { }
+    constructor(private modalService: BsModalService, private reviewService: ReviewService) { }
 
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalService.show(template);
     }
 
-    createRecipe() {
-        this.recipeService.createRecipe(this.recipe)
-            .then(createdRecipe => {
-                this.recipe = createdRecipe;
-                this.formInfo = `Recipe with id ${createdRecipe._id} successfully created!`;
+    createReview() {
+        this.reviewService.createReview(this.recipe, this.review)
+            .then(createdReview => {
+                this.review = createdReview;
+                this.formInfo = `Review with id ${createdReview._id} successfully created!`;
                 this.formError = null;
             })
             .catch(error => {

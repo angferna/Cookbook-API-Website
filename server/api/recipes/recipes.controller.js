@@ -1,6 +1,7 @@
 'use strict';
 
-import {Review, Recipe} from './recipes.model';
+import {Recipe} from './recipes.model';
+import {Review} from './reviews.model';
 import {User} from '../users/users.model';
 
 // Find all Recipes
@@ -95,14 +96,14 @@ export function createReview(req, res) {
         .then(function(existingRecipe) {
             if(existingRecipe) {
                 recipeToUpdate = existingRecipe;
-                return User.findOne({username: review.user}).exec();
+                return User.findOne({username: review.userReviewer}).exec();
             } else {
                 return Promise.reject(new Error('Recipe not found'));
             }
         })
         .then(function(existingUser) {
             if(existingUser) {
-                review.user = existingUser;
+                review.userReviewer = existingUser;
                 // Don't allow custom create date
                 if(review.createdDate) {
                     review.createDate = null;
@@ -139,7 +140,7 @@ export function update(req, res) {
         .exec()
         .then(function(existingRecipe) {
             if(existingRecipe) {
-                existingRecipe.name = req.body.name;
+                existingRecipe.recipeName = req.body.recipeName;
                 existingRecipe.description = req.body.description;
                 existingRecipe.image = req.body.image;
                 existingRecipe.prepTime = req.body.prepTime;
