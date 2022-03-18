@@ -11,11 +11,13 @@ var config = {
 
     // A base URL for your application under test. Calls to protractor.get()
     // with relative paths will be prepended with this.
-  baseUrl: `http://web2-nodejs:${process.env.PORT || '9002'}`,
+    baseUrl: `http://web2-nodejs:${process.env.PORT || '9002'}`,
 
-  directConnect: false,
+    directConnect: false,
 
-  restartBrowserBetweenTests: true,
+    SELENIUM_PROMISE_MANAGER: false,
+
+    restartBrowserBetweenTests: true,
 
     // list of files / patterns to load in the browser
     specs: [
@@ -35,14 +37,21 @@ var config = {
         browserName: 'chrome',
         seleniumAddress: 'http://web2-selenium-chrome:4444/wd/hub',
         chromeOptions: {
-        args: [
-            '--disable-gpu',
-        ]},
-        pageLoadingStrategy: 'eager'
-    }, {
+            args: [
+                '--disable-dev-shm-usage',
+                '--disable-extensions',
+                '--disable-gpu',
+                '--disable-software-rasterizer',
+                '--headless',
+                '--no-sandbox',
+                '--test-type=browser',
+                '--window-size=1920,1280'
+            ]
+        }
+    }/*, {
         browserName: 'firefox',
         seleniumAddress: 'http://web2-selenium-firefox:4444/wd/hub'
-    }],
+    }*/],
 
     // ----- The test framework -----
     //
@@ -63,17 +72,10 @@ var config = {
         serverConfig: require('./server/config/environment')
     },
 
-  beforeLaunch() {
+    onPrepare() {
         require('babel-register');
         // Load Mocha and Chai + plugins
         require('./mocha.conf');
-
-        // Expose should assertions (see https://github.com/angular/protractor/issues/633)
-        Object.defineProperty(
-            protractor.promise.Promise.prototype,
-            'should',
-            Object.getOwnPropertyDescriptor(Object.prototype, 'should')
-        );
 
         var serverConfig = config.params.serverConfig;
 

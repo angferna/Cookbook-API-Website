@@ -1,65 +1,255 @@
-import mongoose from 'mongoose';
-let Schema = mongoose.Schema;
+/*eslint no-invalid-this:0*/
+import crypto from 'crypto';
+mongoose.Promise = require('bluebird');
+import mongoose, {Schema} from 'mongoose';
+import {registerEvents} from './users.events';
 
-/*
-  This section declares the schemas for the different documents
-  that will be used
+const authTypes = ['github', 'twitter', 'facebook', 'google'];
+
+var UserSchema = new Schema({
+    name: String,
+    email: {
+        type: String,
+        lowercase: true,
+        required() {
+            if(authTypes.indexOf(this.provider) === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    },
+    role: {
+        type: String,
+        default: 'user'
+    },
+    password: {
+        type: String,
+        required() {
+            if(authTypes.indexOf(this.provider) === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    },
+    provider: String,
+    salt: String,
+    facebook: {},
+    twitter: {},
+    google: {},
+    github: {}
+});
+
+/**
+ * Virtuals
  */
 
-// This schema represents the address of the user
-let addressSchema = Schema({
-  // addressLine1 is a simple String type that is required
-  addressLine1: {type: String, required: true},
-  // addressLine2 is a simple String type that is NOT required
-  addressLine2: {type: String, required: false},
-  // city is a simple String type that is required
-  city: {type: String, required: true},
-  // state is a simple String type that is required
-  state: {type: String, required: true},
-  // zip is a simple Number type that is required
-  zip: {type: Number, required: true}
-});
+// Public profile information
+UserSchema
+    .virtual('profile')
+    .get(function() {
+        return {
+            name: this.name,
+            role: this.role
+        };
+    });
 
-// This schema represents the name of the user
-let nameSchema = Schema({
-  // firstName is a simple String type that is required
-  firstName: {type: String, required: true},
-  // middleName is a simple String type that is not required
-  middleName: {type: String, required: false},
-  // lastName is a simple String type that is required
-  lastName: {type: String, required: true}
-});
+// Non-sensitive info we'll be putting in the token
+UserSchema
+    .virtual('token')
+    .get(function() {
+        return {
+            _id: this._id,
+            role: this.role
+        };
+    });
 
-// This is the main user schema
-let userSchema = Schema({
-  // Age is a simple number type that is required
-  age: {type: Number, required: true},
-  /*
-   Address is referenced as a 'foreign key' using the objectId
-   of an address stored in a separate collection.
-   The address will be populated by Mongoose using 'Population'
-   http://mongoosejs.com/docs/populate.html
-  */
-  address: {type: Schema.Types.ObjectId, ref: 'Address'},
-  /*
-   Name is a subdocument of User, and will be stored
-   in the same document as the User itself.
-   Unlike a populated document, this doesn't require an
-   ObjectId reference and the schema for name can be
-   referenced directly
-  */
-  name: nameSchema
-});
-
-/*
-  This section creates interactive models from the defined schemas
-  above so that you can perform Create Read Update and Delete (CRUD)
-  operations against the schemas.
-  NOTE since the nameSchema is embedded within userSchema, it does NOT have
-  to be created as a model!
+/**
+ * Validations
  */
-let Address = mongoose.model('Address', addressSchema);
-let User = mongoose.model('User', userSchema);
 
-// Export the two created models, Address and User
-export {Address, User};
+// Validate empty email
+UserSchema
+    .path('email')
+    .validate(function(email) {
+        if(authTypes.indexOf(this.provider) !== -1) {
+            return true;
+        }
+        return email.length;
+    }, 'Email cannot be blank');
+
+// Validate empty password
+UserSchema
+    .path('password')
+    .validate(function(password) {
+        if(authTypes.indexOf(this.provider) !== -1) {
+            return true;
+        }
+        return password.length;
+    }, 'Password cannot be blank');
+
+// Validate email is not taken
+UserSchema
+    .path('email')
+    .validate(function(value) {
+        if(authTypes.indexOf(this.provider) !== -1) {
+            return true;
+        }
+
+        return this.constructor.findOne({ email: value }).exec()
+            .then(user => {
+                if(user) {
+                    if(this.id === user.id) {
+                        return true;
+                    }
+                    return false;
+                }
+                return true;
+            })
+            .catch(err => {
+                throw err;
+            });
+    }, 'The specified email address is already in use.');
+
+var validatePresenceOf = function(value) {
+    return value && value.length;
+};
+
+/**
+ * Pre-save hook
+ */
+UserSchema
+    .pre('save', function(next) {
+        // Handle new/update passwords
+        if(!this.isModified('password')) {
+            return next();
+        }
+
+        if(!validatePresenceOf(this.password)) {
+            if(authTypes.indexOf(this.provider) === -1) {
+                return next(new Error('Invalid password'));
+            } else {
+                return next();
+            }
+        }
+
+        // Make salt with a callback
+        this.makeSalt((saltErr, salt) => {
+            if(saltErr) {
+                return next(saltErr);
+            }
+            this.salt = salt;
+            this.encryptPassword(this.password, (encryptErr, hashedPassword) => {
+                if(encryptErr) {
+                    return next(encryptErr);
+                }
+                this.password = hashedPassword;
+                return next();
+            });
+        });
+    });
+
+/**
+ * Methods
+ */
+UserSchema.methods = {
+    /**
+     * Authenticate - check if the passwords are the same
+     *
+     * @param {String} password
+     * @param {Function} callback
+     * @return {Boolean}
+     * @api public
+     */
+    authenticate(password, callback) {
+        if(!callback) {
+            return this.password === this.encryptPassword(password);
+        }
+
+        this.encryptPassword(password, (err, pwdGen) => {
+            if(err) {
+                return callback(err);
+            }
+
+            if(this.password === pwdGen) {
+                return callback(null, true);
+            } else {
+                return callback(null, false);
+            }
+        });
+    },
+
+    /**
+     * Make salt
+     *
+     * @param {Number} [byteSize] - Optional salt byte size, default to 16
+     * @param {Function} callback
+     * @return {String}
+     * @api public
+     */
+    makeSalt(...args) {
+        var defaultByteSize = 16;
+        let byteSize;
+        let callback;
+
+        if(typeof args[0] === 'function') {
+            callback = args[0];
+            byteSize = defaultByteSize;
+        } else if(typeof args[1] === 'function') {
+            callback = args[1];
+        } else {
+            throw new Error('Missing Callback');
+        }
+
+        if(!byteSize) {
+            byteSize = defaultByteSize;
+        }
+
+        return crypto.randomBytes(byteSize, (err, salt) => {
+            if(err) {
+                return callback(err);
+            } else {
+                return callback(null, salt.toString('base64'));
+            }
+        });
+    },
+
+    /**
+     * Encrypt password
+     *
+     * @param {String} password
+     * @param {Function} callback
+     * @return {String}
+     * @api public
+     */
+    encryptPassword(password, callback) {
+        if(!password || !this.salt) {
+            if(!callback) {
+                return null;
+            } else {
+                return callback('Missing password or salt');
+            }
+        }
+
+        var defaultIterations = 10000;
+        var defaultKeyLength = 64;
+        var salt = Buffer.from(this.salt, 'base64');
+
+        if(!callback) {
+            return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength, 'sha256')
+                .toString('base64');
+        }
+
+        return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, 'sha256', (err, key) => {
+            if(err) {
+                return callback(err);
+            } else {
+                return callback(null, key.toString('base64'));
+            }
+        });
+    }
+};
+
+registerEvents(UserSchema);
+export default mongoose.model('User', UserSchema);

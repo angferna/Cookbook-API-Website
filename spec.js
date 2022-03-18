@@ -10,10 +10,7 @@ import 'zone.js/dist/async-test';
 import 'zone.js/dist/fake-async-test';
 
 var testsContext = require.context('./client', true, /\.(spec|test)\.ts$/);
-// testsContext.keys().forEach(testsContext);
-testsContext('./app/main/main.component.spec.ts');
-testsContext('./components/util.spec.ts');
-testsContext('./components/oauth-buttons/oauth-buttons.component.spec.ts');
+testsContext.keys().forEach(testsContext);
 
 import { TestBed, getTestBed } from '@angular/core/testing';
 import {

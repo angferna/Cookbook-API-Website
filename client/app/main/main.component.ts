@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {UserService} from '../../components/services/user.service';
-import {User} from '../../components/interfaces/user';
+import {User} from '../../components/interfaces/AuthUser';
 
 @Component({
     selector: 'main',
-    templateUrl: './main.html',
-    styleUrls: ['./main.scss'],
+    template: require('./main.html'),
+    styles: [require('./main.scss')],
 })
 export class MainComponent implements OnInit {
-
-    public values: string[];
-    public valueToSquare: number;
+    private values: string[];
+    private valueToSquare: number;
     public users: User[];
-    public input: string;
+    private input: string;
+
     static parameters = [HttpClient, UserService];
 
     constructor(private http: HttpClient, private userService: UserService) {
@@ -31,14 +31,17 @@ export class MainComponent implements OnInit {
     public getUserData() {
         this.userService.getAllUsers()
             .then(response => {
-                this.users = response.users as User[];
+                this.users = response as User[];
             })
             .catch(this.handleError);
     }
 
-    private handleError(error: any): Promise<any> {
+    private handleError(error: any) {
         console.error('Something has gone wrong', error);
-        return Promise.reject(error.message || error);
+    }
+
+    private incrementNumber() {
+        this.valueToSquare++;
     }
 
     ngOnInit() {

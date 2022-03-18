@@ -4,17 +4,12 @@
 
 import errors from './components/errors';
 import path from 'path';
-import * as controller from './api/users';
+
+import * as users from './api/users';
 
 export default function(app) {
-    // Custom API routes go here
-    app.use('/api/users', controller.router);
-
-
-    // Define health route
-    // TODO replace with @godaddy/terminus
-    app.route('/health')
-        .get((req, res) => res.json({status: 'OK'}));
+    app.use('/api/users', require('./api/users'));
+    app.use('/auth', require('./auth').default);
 
     // All undefined asset or api routes should return a 404
     app.route('/:url(api|auth|components|app|bower_components|assets)/*')

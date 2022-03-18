@@ -1,19 +1,14 @@
-import express from 'express';
+import {Router} from 'express';
 import * as controller from './users.controller';
+import * as auth from '../../auth/auth.service';
 
-let router = express.Router();
+var router = Router();
 
-// GET methods
-router.get('/', controller.index);
-router.get('/:id', controller.show);
-
-// POST method
+router.get('/', auth.hasRole('admin'), controller.index);
+router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+router.get('/me', auth.isAuthenticated(), controller.me);
+router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 
-// PUT method
-router.put('/:id', controller.update);
-
-// DELETE method
-router.delete('/:id', controller.destroy);
-
-export {router};
+module.exports = router;
